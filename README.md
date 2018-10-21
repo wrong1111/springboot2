@@ -8,20 +8,31 @@
 不管是个人还是企业对于快速开发后台提供了最基本的组件。
 
 #### 软件架构
-软件架构说明
+ 所有开发软件基于最近流行的开发框架。
+ springboot 2.0.6 
+ mybatis
+ shiro 1.3.1
+ activemq 
 
 
 #### 安装教程
 
-1. xxxx
-2. xxxx
-3. xxxx
+ 
 
 #### 使用说明
+ 1. 使用过程中，使用mybatis自动生成的代码创建mapper.xml 没有primarykey,只是因为数据库是5.5,数据库驱动未使用最新6.0;
+在升级6.0驱动过程中，出现了一些问题，由于没有时间处理，所以未处理。
+ 2，代码全部未按流行的组织拆分，但是把模块独立出来了。
+  com.yuce.admin - 
+                 - common 包括了所有的配置初始化程序。
+                 - manage 包括了系统配置菜单程序文件。
+                 - task 包括了定时任务的程序文件。
+                 - buiness 包括了简单的业务使用程序文件。 
 
-1. xxxx
-2. xxxx
-3. xxxx
+所有文件，都可以以本地jar包方式运行。
+java -jar xxx.jar -Xmx256m 
+  
+ 
 
 #### 参与贡献
 
@@ -31,11 +42,4 @@
 4. 新建 Pull Request
 
 
-#### 码云特技
-
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+ 
