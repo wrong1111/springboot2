@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='广告位置列表'"></head>
+<style>
+    .layui-table-cell {
+        height:36px;
+        line-height: 36px;
+    }
+</style>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+        <form id="placeSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">广告位</label>
+                    <div class="layui-input-inline" style="width: 175px;">
+                         <select name="placeName" id="splaceName">
+                             <option value="">--所有--</option>
+                         </select>
+
+                    </div>
+                    <div class="layui-form-mid">状态</div>
+                    <div class="layui-input-inline" style="width: 175px;">
+                        <select id="splaceStatus" name="placeStatus" lay-filter="placeStatus">
+                            <option value="">--全部--</option>
+                            <option value="0">有效</option>
+                            <option value="1">无效</option>
+                        </select>
+
+                    </div>
+                    <button class="layui-btn" lay-submit="" lay-filter="searchSubmit" >提交</button>
+                </div>
+            </div>
+        </form>
+
+        <hr class="layui-bg-black"/>
+
+        <button class="layui-btn layui-btn-normal" onclick="addUser()">增加广告</button>
+
+        <div style="display:none;" id="currentUser">
+            <shiro:principal property="id"></shiro:principal>
+        </div>
+
+        <table id="uesrList" lay-filter="userTable"></table>
+
+        <script type="text/html" id="optBar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+    </div>
+
+
+    <!--添加或编辑用户-->
+    <div id="setUser" class="layer_self_wrap" style="width:500px;display:none;">
+        <form id="userForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md9">
+                <div class="grid-demo grid-demo-bg1">
+                    <input id="id" type="hidden" name="id"/>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">广告位置</label>
+                        <div class="layui-input-inline">
+                            <input id="placeName" name="placeName" lay-verify="required" autocomplete="off" class="layui-input"
+                                   type="text"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">类型</label>
+                        <div class="layui-input-inline">
+                            <input  name="placeType" value="0" title="文字" class="layui-input" type="radio"
+                                   checked="checked"/>
+                            <input  name="placeType" value="1" title="图片" class="layui-input" type="radio"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" >
+                        <label class="layui-form-label">文字</label>
+                        <div class="layui-input-inline">
+                            <input id="placeUrlb" name="placeUrl" class="layui-input" type="text"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">点击后跳转地址</label>
+                        <div class="layui-input-inline">
+                            <input id="targeturl" name="targeturl" autocomplete="off" class="layui-input" type="text"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排序</label>
+                        <div class="layui-input-inline">
+                            <input id="placeseq" name="placeSeq" autocomplete="off" class="layui-input" type="text"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">参数</label>
+                        <div class="layui-input-inline">
+                            <input id="param" name="param" autocomplete="off" class="layui-input" type="text"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block" style="margin-left: 10px;">
+                            <button class="layui-btn" lay-submit="" lay-filter="userSubmit">提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-inline">
+                            <input  name="placeStatus" value="0" title="有效" class="layui-input" type="radio"
+                                    checked="checked"/>
+                            <input  name="placeStatus" value="1" title="无效" class="layui-input" type="radio"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
+                <div class="grid-demo">
+                    <div class="layui-upload">
+                        <button type="button" class="layui-btn" id="placeUrla">上传图片</button>
+                        <div class="layui-upload-list">
+                            <img class="layui-upload-img" id="demo1" name="placeUrl"/>
+                            <p id="demoText"></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        </form>
+            <script type="text/html" id="jobTpl">
+                {{#  if('0' == d.placeStatus){ }}
+                <input type="checkbox" name="place_{{d.id}}" value="{{d.placeStatus}}" lay-skin="switch"
+                       lay-text="有效|无效" lay-filter="isJobTpl" checked="checked"/>
+                {{#  } else { }}
+                <input type="checkbox" name="place_{{d.id}}" value="{{d.placeStatus}}" lay-skin="switch"
+                       lay-text="有效|无效" lay-filter="isJobTpl"/>
+                {{#  } }}
+            </script>
+            <script id="createTime" type="text/html">
+                {{#
+                      return DateUtils.formatDate(d.createtime);
+                }}
+            </script>
+            <script type="text/html" id="placeType">
+                {{#  if('1' == d.placeType){ }}
+                        图片
+                {{#  } else { }}
+                      文字
+                {{#  } }}
+            </script>
+            <script type="text/html" id="placeUrl">
+                {{#  if('0' == d.placeType){ }}
+                   {{ d.placeUrl }}
+                {{#  } else { }}
+                 <img src = "{{ d.placeUrl }}" width="40px" height="80px"/>
+                {{#  } }}
+            </script>
+
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/bussiness/indexPlace.js"></script>
+
+</div>
+</body>
+</html>

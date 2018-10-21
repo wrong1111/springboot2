@@ -1,0 +1,113 @@
+spring:
+  datasource:
+    name: yucei
+    url: jdbc:mysql://127.0.0.1:3306/yucei?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    ####使用命令行生成密码 java -cp druid-1.0.18.jar com.alibaba.druid.filter.config.ConfigTools 1234567a
+    password: root
+    # 使用druid数据源  如果换成 com.mysql.cj.jdbc.Driver导致联接数据库极慢 数据库5.5
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+    maxPoolPreparedStatementPerConnectionSize: 20
+
+
+
+  ###############################################################################
+  ## redis配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    timeout: 10000ms
+    jedis:
+      pool:
+        max-active: 50
+        max-idle: 5
+        min-idle: 0
+        max-wait: 10000ms
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+
+##################activemq ##########
+  activemq:
+    broker-url: 127.0.0.1:8161
+    user:
+    password:
+###############################################################################
+####################
+com:
+  yucei:
+    validContentString: ~注册验证码,十分钟内有效。[~]
+    forgetContentPassword: ~找回密码，十分钟有效。[~]
+    tokenHashString: com.yucei
+    loginUserMaxSecond: 86400
+    tokenPreString: Tigger
+    companySign: 28预测网
+    salt: $1$yucei
+    ####请求第三方平台使用数据
+    zsurl: xxx
+    elurl: bb
+    signstring: abc
+    partnerid: ddd
+
+    ##是否开放评论，0 默认不允许 1 允许
+    iscoment: 1
+    filepath: /home/static/file/upload/
+    imageDomain: http://cache.6682828.com/upload/
+#########
+
+##########日志输出
+logging:
+  level:
+    com.yucei.admin: debug
+
+########httpclient
+httpclient:
+  config:
+    proxyhost: 127.0.0.1
+    proxyPort: 8080
+    retryTime: 1
+    connMaxTotal: 20
+    maxPerRoute: 20
+    connectTimeout: 3000
+    connectRequestTimeout: 2000
+    socketTimeout: 3000
+    timeToLive: 10
+
+## redis config
+redis:
+  config:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 0
+    expire: 1800
+    password: abc
+    dbindex: 1
+    maxIdle: 300
+    maxTotal: 1000
+    maxWaitMillis: 1000
+    minEvictableIdleTimeMillis: 300000
+    numTestsPerEvictionRun: 1024
+    timeBetweenEvictionRunsMillis: 30000
+    testOnBorrow: true
+    testWhileIdle: true
+
+
+
+
+

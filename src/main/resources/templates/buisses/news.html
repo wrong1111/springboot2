@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='文章列表'"></head>
+<style>
+</style>
+<body class="layui-layout-body">
+<div th:fragment="newslist">
+    <form id="placeSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+        <div class="layui-row">
+            <div class="layui-col-md3">
+                <div class="layui-inline">
+                    <label class="layui-form-label">新闻类别</label>
+                    <div class="layui-input-inline" style="width: 175px;">
+                        <select name="lotteryid" id="slotteryid">
+                            <option value="">--所有--</option>
+                            <option value="1">幸运28</option>
+                            <option value="4">加拿大28</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
+                <div class="layui-inline">
+                    <div class="layui-form-label">时间</div>
+                    <div class="layui-input-inline" style="width: 175px;">
+                        <input id="sstartdate" name="startdate" lay-filter="startdate" class="layui-input"
+                               placeholder="yyyy-MM-dd"/>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
+                <div class="layui-inline">
+                    <label class="layui-form-label">发布</label>
+                    <div class="layui-input-inline" style="width: 175px;">
+                        <select name="spublishflag" id="spublishflag">
+                            <option value="">--所有--</option>
+                            <option value="1">已发布</option>
+                            <option value="0">未发布</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
+                <div class="layui-inline">
+                    <button class="layui-btn" lay-submit="" lay-filter="searchSubmit">提交</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <hr class="layui-bg-black"/>
+
+    <div style="display:none;" id="currentUser">
+        <shiro:principal property="id"></shiro:principal>
+    </div>
+
+    <table id="uesrList" lay-filter="userTable"></table>
+
+    <script type="text/html" id="publishflag">
+        {{#  if('1' == d.publishflag){ }}
+        <input type="checkbox" name="{{d.title}}_{{d.id}}" value="{{d.publishflag}}" lay-skin="switch"
+               lay-text="已发布|未发布" lay-filter="publishflag" checked="checked"/>
+        {{#  } else { }}
+        <input type="checkbox" name="{{d.title}}_{{d.id}}" value="{{d.publishflag}}" lay-skin="switch"
+               lay-text="已发布|未发布" lay-filter="publishflag"/>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="showtype">
+        {{#  if('1' == d.lotteryid){ }}
+                幸运28
+        {{#  } else if('4' == d.lotteryid) { }}
+               加拿大28
+        {{# } else {  }}
+                其他
+        {{#  }  }}
+    </script>
+    <script type="text/html" id="optBar1">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <script src="/js/bussiness/news.js"></script>
+</div>
+</body>
+</html>

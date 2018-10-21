@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='文章创建/修改'"></head>
+<style>
+</style>
+<body class="layui-layout-body">
+<div th:fragment="newsedit">
+    <form id="editnews" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+        <input id="id" type="hidden" name="id"/>
+        <input id="econtent" name="content" type="hidden"/>
+        <input id="epublish" name="publishflag" type="hidden"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新闻类别</label>
+            <div class="layui-input-block" style="width: 175px;">
+                <select name="lotteryid" id="elotteryid">
+                    <option value="1">幸运28</option>
+                    <option value="4">加拿大28</option>
+                    <option value="">其他</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新闻标題</label>
+            <div class="layui-input-block" style="width: 375px;">
+                <input name="title" id="etitle" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">作者</label>
+            <div class="layui-input-block" style="width: 375px;">
+                <input name="author" id="eauthor" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">跳转地址</label>
+            <div class="layui-input-block" style="width: 375px;">
+                <input name="targeturl" id="etargeturl" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block" style="width: 375px;">
+                <input name="seq" id="eseq" class="layui-input" value="0"/>
+            </div>
+        </div>
+        <textarea id="eeditor" style="display: none;"></textarea>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="width: 175px;">
+                <button class="layui-btn" lay-submit="" lay-filter="editSubmit">发布</button>
+                <button class="layui-btn" lay-submit="" lay-filter="resetSubmit">保存原稿</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
